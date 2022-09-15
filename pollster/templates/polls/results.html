@@ -35,13 +35,13 @@
     success: function (response) {
       console.log('RESPONSE', response);
       for (var i in response) {
-        var key = Objects.keys(response[i][0]);
-        var value = Objects.values(response[i])[0];
+        var key = Object.keys(response[i])[0];
+        var value = Object.values(response[i])[0];
         state.items.push(key);
         state.values.push(value);
+        console.log('STATE', state);
+        buildChart();
       }
-
-      buildChart(response);
     },
   });
 
@@ -49,19 +49,18 @@
     var chartData = {
       type: 'bar',
       'scale-x': {
-        values: ['Dennis', 'Erik', 'Tim'],
+        values: state.items,
       },
       series: [
         {
-          values: [25, 23, 27],
+          values: state.values,
         },
       ],
     };
+    zingchart.render({
+      id: 'myChart',
+      data: chartData,
+    });
   }
-
-  zingchart.render({
-    id: 'myChart',
-    data: chartData,
-  });
 </script>
 {% endblock %}
